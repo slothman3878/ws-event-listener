@@ -41,7 +41,9 @@ const app = uWS./*SSL*/App({
           type: 'uint256',
           name: 'amount'
         }], log.data, log.topics.slice(1,log.topics.length));
-          ws.send(amount);
+          ws.send(JSON.stringify({
+            from, to, amount
+          }));
       });
   },
   drain: (ws)=>{

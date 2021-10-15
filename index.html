@@ -9,6 +9,9 @@
         display: flex;
         justify-content: center;
       }
+      .my-element h1 {
+        color: #ffd400;
+      }
     </style>
     <script>
     const animateCSS = (element, animation, prefix = 'animate__') =>
@@ -53,14 +56,18 @@
       setInterval(()=>{
         // need to implement O(1) queue instead...
         if(events.length > 0) {
-          document.getElementById("message").innerHTML = events.shift();
+          let event = events.shift();
+          document.getElementById("message").innerHTML 
+            = `from: ${event.from} <br>
+                to: ${event.to} <br>
+                amount: ${event.amount}`;
           animateCSS('.my-element', 'rubberBand');
         }
       },3000)
 
       let Socket = new WebSocket('ws://localhost:9001/');
       Socket.onmessage = event => {
-        events.push(event.data);
+        events.push(JSON.parse(event.data));
         console.log(event.data);
       };
       Socket.onopen = event => {
